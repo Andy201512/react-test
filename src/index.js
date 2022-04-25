@@ -49,6 +49,7 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        clickAxis: Array(2).fill(null),
       }],
       stepNumber: 0,
       xIsNext: true,
@@ -59,6 +60,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const clickAxis = calculateAxis(i);
     if(calculateWinner(squares) || squares[i]){
       return;
     }
@@ -66,6 +68,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares:squares,
+        clickAxis:clickAxis,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext
@@ -86,7 +89,7 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ? 
-        'Go to move #' + move :
+        'Go to move #' + move + ', clicked (' + step.clickAxis.toString() + ')' :
         'Go to game start';
       return (
         <li key={ move }>
@@ -143,4 +146,20 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+// 通过序号生成坐标函数
+function calculateAxis(i){
+  const axis = [
+    [0,0],
+    [0,1],
+    [0,2],
+    [1,0],
+    [1,1],
+    [1,2],
+    [2,0],
+    [2,1],
+    [2,2],
+  ]
+  return axis[i]
 }
