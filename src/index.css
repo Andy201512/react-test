@@ -52,3 +52,7 @@ ol, ul {
 .clicked-li {
   font-weight: 900;
 }
+
+.highight-square{
+  background: yellow;
+}
