@@ -49,6 +49,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      isAscending: true,
     };
   }
 
@@ -78,6 +79,12 @@ class Game extends React.Component {
     });
   }
 
+  changeOrder(){
+    this.setState({
+      isAscending: !this.state.isAscending
+    });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -93,6 +100,10 @@ class Game extends React.Component {
         </li>
       )
     });
+
+    if(!this.state.isAscending){
+      moves.reverse()
+    }
 
     let status;
     if(winner){
@@ -110,6 +121,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{ status }</div>
+          <button onClick={() => this.changeOrder()}>{ this.state.isAscending ? '转为倒序' : '转为正序'}</button>
           <ol>{ moves }</ol>
         </div>
       </div>
